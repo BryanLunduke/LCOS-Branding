@@ -6,11 +6,11 @@ on:
  workflow_dispatch: # Allows manual trigger from Actions tab
 
 jobs:
- build:
- runs-on: ubuntu-latest
- permissions:
- contents: write
- pages: write
+  build:
+   runs-on: ubuntu-latest
+   permissions:
+   contents: write
+   pages: write
 
  steps:
  - name: Checkout repository
