@@ -21,8 +21,8 @@ jobs:
 
       - name: Create package structure
         run: |
-          mkdir -p pkg/DEBIAN pkg/usr/share/xfce4/backdrops
-          cp lcos-bw-720.jpg pkg/usr/share/xfce4/backdrops/
+          mkdir -p pkg/DEBIAN pkg/usr/share/images/desktop-base
+          cp lcos-bw-720.jpg pkg/usr/share/images/desktop-base/
 
           echo "Package: lcos-branding" > pkg/DEBIAN/control
           echo "Version: 1.0-1" >> pkg/DEBIAN/control
