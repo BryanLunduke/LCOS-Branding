@@ -25,7 +25,7 @@ jobs:
           cp lcos-bw-720.jpg pkg/usr/share/images/desktop-base/
 
           echo "Package: lcos-branding" > pkg/DEBIAN/control
-          echo "Version: 1.0-3" >> pkg/DEBIAN/control
+          echo "Version: 1.0-1" >> pkg/DEBIAN/control
           echo "Section: x11" >> pkg/DEBIAN/control
           echo "Priority: optional" >> pkg/DEBIAN/control
           echo "Architecture: all" >> pkg/DEBIAN/control
