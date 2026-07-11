@@ -24,7 +24,6 @@ jobs:
           mkdir -p pkg/DEBIAN pkg/usr/share/xfce4/backdrops
           cp lcos-bw-720.jpg pkg/usr/share/xfce4/backdrops/
 
-          # Create control file safely
           echo "Package: lcos-branding" > pkg/DEBIAN/control
           echo "Version: 1.0-1" >> pkg/DEBIAN/control
           echo "Section: x11" >> pkg/DEBIAN/control
@@ -44,7 +43,6 @@ jobs:
           cd repo
           dpkg-scanpackages . /dev/null | gzip -9 > Packages.gz
 
-          # Create Release file safely
           echo "Origin: LCOS" > Release
           echo "Label: LCOS-Branding" >> Release
           echo "Suite: stable" >> Release
