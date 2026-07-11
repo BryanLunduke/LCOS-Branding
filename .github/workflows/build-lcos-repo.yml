@@ -23,6 +23,8 @@ jobs:
         run: |
           mkdir -p pkg/DEBIAN pkg/usr/share/images/desktop-base
           cp lcos-bw-720.jpg pkg/usr/share/images/desktop-base/
+          mkdir -p pkg/DEBIAN pkg/usr/share/pixmaps
+          cp lcos32.png pkg/usr/share/pixmaps/
 
           echo "Package: lcos-branding" > pkg/DEBIAN/control
           echo "Version: 1.0-1" >> pkg/DEBIAN/control
