@@ -21,19 +21,20 @@ jobs:
 
       - name: Create package structure
         run: |
-          mkdir -p pkg/DEBIAN pkg/usr/share/xfce4/backdrops
-          cp lcos-bw-720.jpg pkg/usr/share/xfce4/backdrops/
+          mkdir -p pkg/DEBIAN pkg/usr/share/xfce
 
-          cat > pkg/DEBIAN/control << 'EOF'
-Package: lcos-branding
-Version: 1.0-1
-Section: x11
-Priority: optional
-Architecture: all
-Maintainer: Bryan Lunduke <bryan@lunduke.com>
-Description: LCOS Branding
- Branding and Wallpaper for LCOS.
-EOF
+
+          cp lcos-bs-720.jpg pkg/usr/share/xfce4/backdrops/
+
+          # Create control file safely
+          echo "Package: lcos-branding" > pkg/DEBIAN/control
+          echo "Version: 1.0-1" >> pkg/DEBIAN/control
+          echo "Section: x11" >> pkg/DEBIAN/control
+          echo "Priority: optional" >> pkg/DEBIAN/control
+          echo "Architecture: all" >> pkg/DEBIAN/control
+          echo "Maintainer: Bryan Lunduke <bryan@lundue.com>" >> pkg/DEBIAN/control
+          echo "Description: LCOS Branding" >> pkg/DEBIAN/control
+          echo " Branding and Wallpaper for LCOS." >> pkg/DEBIAN/control
 
       - name: Build the .deb package
         run: dpkg-deb --build pkg lcos-branding_1.0-1_all.deb
@@ -45,19 +46,17 @@ EOF
           cd repo
           dpkg-scanpackages . /dev/null | gzip -9 > Packages.gz
 
-          cat > Release << 'EOF'
-Origin: LCOS
-Label: LCOS-Branding
-Suite: stable
-Codename: stable
-Architectures: all
-Components: main
-Description: LCOS Branding Repository
-EOF
+          # Create Release file safely
+          echo "Origin: LCOS" > Release
+          echo "Label: LCOS-Branding" >> Release
+          echo "Suite: stable" >> Release
+          echo "Codename: stable" >> Release
+          echo "Architectures: all" >> Release
+          echo "Components: main" >> Release
+          echo "Description: LCOS Branding Repository" >> Release
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./repo
-
