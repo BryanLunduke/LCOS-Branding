@@ -1,0 +1,7 @@
+Origin: LCOS
+Label: LCOS-Branding
+Suite: stable
+Codename: stable
+Architectures: all
+Components: main
+Description: LCOS Branding Repository
