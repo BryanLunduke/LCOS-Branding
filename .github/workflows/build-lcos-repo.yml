@@ -1,51 +1,51 @@
-name: Build LCOS Branding Debian Repository
+name: Build LCOS Branding Repo
 
 on:
- push:
- branches: [ main ]
- workflow_dispatch: # Allows manual trigger from Actions tab
+  push:
+    branches: [ main ]
+  workflow_dispatch:
 
 jobs:
   build:
-   runs-on: ubuntu-latest
-   permissions:
-   contents: write
-   pages: write
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pages: write
 
- steps:
- - name: Checkout repository
- uses: actions/checkout@v4
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
- - name: Install build tools
- run: sudo apt-get update && sudo apt-get install -y dpkg-dev
+      - name: Install build tools
+        run: sudo apt-get update && sudo apt-get install -y dpkg-dev
 
- - name: Create package structure
- run: |
- mkdir -p pkg/DEBIAN pkg/usr/share/xfce4/backdrops
- cp lcos-bw-720.jpg pkg/usr/share/xfce4/backdrops/
- 
- cat > pkg/DEBIAN/control << 'EOF'
+      - name: Create package structure
+        run: |
+          mkdir -p pkg/DEBIAN pkg/usr/share/xfce4/backdrops
+          cp lcos-bw-720.jpg pkg/usr/share/xfce4/backdrops/
+
+          cat > pkg/DEBIAN/control << 'EOF'
 Package: lcos-branding
 Version: 1.0-1
 Section: x11
 Priority: optional
 Architecture: all
 Maintainer: Bryan Lunduke <bryan@lunduke.com>
-Description: LCOS Branding Files
- Wallpaper and other branding files for an LCOS desktop.
+Description: LCOS Branding
+ Branding and Wallpaper for LCOS.
 EOF
 
- - name: Build the .deb package
- run: dpkg-deb --build pkg lcos-branding_1.0-1_all.deb
+      - name: Build the .deb package
+        run: dpkg-deb --build pkg lcos-branding_1.0-1_all.deb
 
- - name: Create APT repository files
- run: |
- mkdir -p repo
- cp lcos-branding_1.0-1_all.deb repo/
- cd repo
- dpkg-scanpackages . /dev/null | gzip -9 > Packages.gz
- 
- cat > Release << 'EOF'
+      - name: Create APT repository files
+        run: |
+          mkdir -p repo
+          cp lcos-branding_1.0-1_all.deb repo/
+          cd repo
+          dpkg-scanpackages . /dev/null | gzip -9 > Packages.gz
+
+          cat > Release << 'EOF'
 Origin: LCOS
 Label: LCOS-Branding
 Suite: stable
@@ -55,9 +55,9 @@ Components: main
 Description: LCOS Branding Repository
 EOF
 
- - name: Deploy to GitHub Pages
- uses: peaceiris/actions-gh-pages@v4
- with:
- github_token: ${{ secrets.GITHUB_TOKEN }}
- publish_dir: ./repo
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./repo
 
