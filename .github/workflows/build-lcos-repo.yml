@@ -44,46 +44,35 @@ jobs:
           cp lcos-branding_1.0-1_all.deb repo/
           cd repo
 
+          # Create both Packages and Packages.gz
           dpkg-scanpackages . /dev/null > Packages
           gzip -9 Packages
 
-          cat > Release << 'EOF'
-Origin: LCOS
-Label: LCOS-Branding
-Suite: stable
-Codename: stable
-Architectures: all
-Components: main
-Description: LCOS Branding Repository
-Date: $(date -R)
-EOF
+          # Create Release file header
+          {
+            echo "Origin: LCOS"
+            echo "Label: LCOS-Branding"
+            echo "Suite: stable"
+            echo "Codename: stable"
+            echo "Architectures: all"
+            echo "Components: main"
+            echo "Description: LCOS Branding Repository"
+            echo "Date: $(date -R)"
+          } > Release
 
-          echo "MD5Sum:" >> Release
-          for f in Packages Packages.gz; do
-            size=$(stat -c%s "$f")
-            hash=$(md5sum "$f" | awk '{print $1}')
-            echo " $hash $size $f" >> Release
-          done
-
-          echo "SHA1:" >> Release
-          for f in Packages Packages.gz; do
-            size=$(stat -c%s "$f")
-            hash=$(sha1sum "$f" | awk '{print $1}')
-            echo " $hash $size $f" >> Release
-          done
-
-          echo "SHA256:" >> Release
-          for f in Packages Packages.gz; do
-            size=$(stat -c%s "$f")
-            hash=$(sha256sum "$f" | awk '{print $1}')
-            echo " $hash $size $f" >> Release
-          done
-
-          echo "SHA512:" >> Release
-          for f in Packages Packages.gz; do
-            size=$(stat -c%s "$f")
-            hash=$(sha512sum "$f" | awk '{print $1}')
-            echo " $hash $size $f" >> Release
+          # Add all hash sections (MD5Sum, SHA1, SHA256, SHA512)
+          for hashtype in MD5Sum SHA1 SHA256 SHA512; do
+            echo "${hashtype}:" >> Release
+            for f in Packages Packages.gz; do
+              size=$(stat -c%s "$f")
+              case $hashtype in
+                MD5Sum)  hash=$(md5sum "$f" | cut -d' ' -f1) ;;
+                SHA1)    hash=$(sha1sum "$f" | cut -d' ' -f1) ;;
+                SHA256)  hash=$(sha256sum "$f" | cut -d' ' -f1) ;;
+                SHA512)  hash=$(sha512sum "$f" | cut -d' ' -f1) ;;
+              esac
+              echo " $hash $size $f" >> Release
+            done
           done
 
       - name: Deploy to GitHub Pages
