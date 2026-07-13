@@ -1,20 +1,20 @@
 Architectures: all
 Codename: stable
 Components: main
-Date: Mon, 13 Jul 2026 13:19:23 +0000
+Date: Mon, 13 Jul 2026 13:22:58 +0000
 Description: LCOS Branding Repository
 Label: LCOS-Branding
 Origin: LCOS
 Suite: stable
 MD5Sum:
- 98b7eebf73c41319cac5c58d6d8c5061              317 Packages.gz
- 6a8b1a7c4f9a3a629e538ed77609e594              177 Release
+ d3e38dd30615e1fdfb8193e790f7f82a              324 Packages.gz
+ a865326e9399787d0a5f81987ad39df7              177 Release
 SHA1:
- 1d31546b152cf0ee3239c65ef94a6d1ba32676cc              317 Packages.gz
- 4b1caa1828239894f341dd14d11b2a56f8d0a5af              177 Release
+ 25b64da9c4672c4674243a237f56caceeded375e              324 Packages.gz
+ 621bb6ac5e1477c4a636a888e5395e49d690cd63              177 Release
 SHA256:
- 4fa0c160a772bc9ccb74f0b46fc02accd372fdf3b37e877a045c98a2dc5ab757              317 Packages.gz
- 7dd23cad595d9921b56358f3ccd8576715966954f717f067f308326b2c2e340c              177 Release
+ f8e508b30a7a158f56d6754eea15fe9ce231a56cead9a848b7963001b172161c              324 Packages.gz
+ 2285aa7a9e17e1ff039393f62860450b9fa6b2fb0d151ad0223fca9ac6c8ac6a              177 Release
 SHA512:
- e68ac9fd38adfd6503b4163284ba16b38492ffb1042799a4c09f5b24e756cae9f223d23d3fea35513abb0f07c963694d75f32d0d66aa20fead4d1b67a6d03589              317 Packages.gz
- 7066321a2b5917aab2a64396880a91246ab175c9df18a9f75419261b1194865bb3c7811b3d8c40c605d53c494cfd5e86ac1af4bb6fbd4137cb4300e10ef88810              177 Release
+ faeee17667b1d0e7903940dd4ed4105f22e98040ba846bac0dc035dad89ce4a22eeb459a8d8201801e54f6ac69801f48bd88a09aa9ffbb857b820fcec7912bcd              324 Packages.gz
+ a06457fe10de05ae2624dc164f9aaa9e0235d4e9f7076de0471e659020ff62874deb272e480599706db2d0c58ea851404f73690b5a0c01d7ca233d547a51e4bf              177 Release
