@@ -5,6 +5,9 @@ on:
     branches: [ main ]
   workflow_dispatch:
 
+env:
+  VERSION: 1.0-2          # Change this line when releasing a new version
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -27,7 +30,7 @@ jobs:
           cp lcos32.png pkg/usr/share/pixmaps/
 
           echo "Package: lcos-branding" > pkg/DEBIAN/control
-          echo "Version: 1.0-1" >> pkg/DEBIAN/control
+          echo "Version: ${{ env.VERSION }}" >> pkg/DEBIAN/control
           echo "Section: x11" >> pkg/DEBIAN/control
           echo "Priority: optional" >> pkg/DEBIAN/control
           echo "Architecture: all" >> pkg/DEBIAN/control
@@ -36,24 +39,20 @@ jobs:
           echo " Branding and Wallpaper for LCOS." >> pkg/DEBIAN/control
 
       - name: Build the .deb package
-        run: dpkg-deb --build pkg lcos-branding_1.0-1_all.deb
+        run: dpkg-deb --build pkg lcos-branding_${{ env.VERSION }}_all.deb
 
       - name: Create APT repository files
         run: |
           set -e
 
           mkdir -p repo
-          cp lcos-branding_1.0-1_all.deb repo/
+          cp lcos-branding_${{ env.VERSION }}_all.deb repo/
           cd repo
 
-          # Create uncompressed Packages first
           dpkg-scanpackages . /dev/null > Packages
-
-          # Create compressed versions WITHOUT deleting the original
           gzip -c Packages > Packages.gz
           bzip2 -c Packages > Packages.bz2
 
-          # Create Release file header
           {
             echo "Origin: LCOS"
             echo "Label: LCOS-Branding"
@@ -65,33 +64,18 @@ jobs:
             echo "Date: $(date -R)"
           } > Release
 
-          # Add hash sections
-          echo "MD5Sum:" >> Release
-          for f in Packages Packages.gz Packages.bz2; do
-            size=$(stat -c %s "$f")
-            hash=$(md5sum "$f" | cut -d' ' -f1)
-            echo " $hash $size $f" >> Release
-          done
-
-          echo "SHA1:" >> Release
-          for f in Packages Packages.gz Packages.bz2; do
-            size=$(stat -c %s "$f")
-            hash=$(sha1sum "$f" | cut -d' ' -f1)
-            echo " $hash $size $f" >> Release
-          done
-
-          echo "SHA256:" >> Release
-          for f in Packages Packages.gz Packages.bz2; do
-            size=$(stat -c %s "$f")
-            hash=$(sha256sum "$f" | cut -d' ' -f1)
-            echo " $hash $size $f" >> Release
-          done
-
-          echo "SHA512:" >> Release
-          for f in Packages Packages.gz Packages.bz2; do
-            size=$(stat -c %s "$f")
-            hash=$(sha512sum "$f" | cut -d' ' -f1)
-            echo " $hash $size $f" >> Release
+          for hashtype in MD5Sum SHA1 SHA256 SHA512; do
+            echo "${hashtype}:" >> Release
+            for f in Packages Packages.gz Packages.bz2; do
+              size=$(stat -c %s "$f")
+              case $hashtype in
+                MD5Sum)  hash=$(md5sum "$f" | cut -d' ' -f1) ;;
+                SHA1)    hash=$(sha1sum "$f" | cut -d' ' -f1) ;;
+                SHA256)  hash=$(sha256sum "$f" | cut -d' ' -f1) ;;
+                SHA512)  hash=$(sha512sum "$f" | cut -d' ' -f1) ;;
+              esac
+              echo " $hash $size $f" >> Release
+            done
           done
 
       - name: Deploy to GitHub Pages
