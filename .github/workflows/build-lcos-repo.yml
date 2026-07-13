@@ -43,12 +43,9 @@ jobs:
           mkdir -p repo
           cp lcos-branding_1.0-1_all.deb repo/
           cd repo
+          dpkg-scanpackages . /dev/null | gzip -9 > Packages.gz
 
-          # Generate both uncompressed and compressed Packages files
-          dpkg-scanpackages . /dev/null > Packages
-          gzip -9 Packages
-
-          # Generate proper Release file with Date + hashes
+          # Generate proper Release file with Date and hash entries
           apt-ftparchive \
             -o APT::FTPArchive::Release::Origin="LCOS" \
             -o APT::FTPArchive::Release::Label="LCOS-Branding" \
@@ -64,4 +61,3 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./repo
-          
