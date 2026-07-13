@@ -1,7 +1,20 @@
-Origin: LCOS
-Label: LCOS-Branding
-Suite: stable
-Codename: stable
 Architectures: all
+Codename: stable
 Components: main
+Date: Mon, 13 Jul 2026 13:12:15 +0000
 Description: LCOS Branding Repository
+Label: LCOS-Branding
+Origin: LCOS
+Suite: stable
+MD5Sum:
+ 8a9ba060d206a25f56786cff7e44cba8              314 Packages.gz
+ b2bb19e64e82724b2953b89f42ee1f37              177 Release
+SHA1:
+ 812ce2aaa38168e6c369c616c6473971a8bf88df              314 Packages.gz
+ 1eea9bea533aed6067087ea8653494c06bdb7e96              177 Release
+SHA256:
+ eb66e535db3cf1624065f3651664d40a81678f59e0a5ecce8ac45493a92ef866              314 Packages.gz
+ 77931c97f0bd0533cb4c6c86987648a951de31f0d8f48673b50e35951b2c93f3              177 Release
+SHA512:
+ 5e3dc7e615316fa4607bf85fde93141d3ff3fdd547c53675f5911a025a32d8431636796bb26a5ea416db36ab3727eac98131f9e22ecc86ab0fa9c3ed9eedef94              314 Packages.gz
+ b5fd4ea9bd22f9192195ca0722655728d974a55b7354ac439ff0e73e6a33182bcc12c9708455c0b7b60a8cfcff6accd5e8d374ec4c8022c95a4fb0bcdbe483c8              177 Release
