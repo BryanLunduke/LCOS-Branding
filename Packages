@@ -1,0 +1,14 @@
+Package: lcos-branding
+Version: 1.0-1
+Architecture: all
+Maintainer: Bryan Lunduke <bryan@lundue.com>
+Filename: ./lcos-branding_1.0-1_all.deb
+Size: 109858
+MD5sum: 30797bf73fa52d47c062231ea67a6d46
+SHA1: f2536d33b89725cff113b967d68106f58278ce62
+SHA256: 8d01ad4ba704940166479019be0a67843a689be0f74dd89e872e2096b5528c86
+Section: x11
+Priority: optional
+Description: LCOS Branding
+ Branding and Wallpaper for LCOS.
+
