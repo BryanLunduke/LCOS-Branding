@@ -40,21 +40,20 @@ jobs:
 
       - name: Create APT repository files
         run: |
-          set -eux
+          set -e
 
           mkdir -p repo
           cp lcos-branding_1.0-1_all.deb repo/
           cd repo
 
-          # Create index files
+          # Create uncompressed Packages first
           dpkg-scanpackages . /dev/null > Packages
-          gzip -9 Packages
+
+          # Create compressed versions WITHOUT deleting the original
+          gzip -c Packages > Packages.gz
           bzip2 -c Packages > Packages.bz2
 
-          # Show what files were created (for debugging)
-          ls -la Packages*
-
-          # Create Release header
+          # Create Release file header
           {
             echo "Origin: LCOS"
             echo "Label: LCOS-Branding"
@@ -66,7 +65,7 @@ jobs:
             echo "Date: $(date -R)"
           } > Release
 
-          # Generate hash sections (more reliable method)
+          # Add hash sections
           echo "MD5Sum:" >> Release
           for f in Packages Packages.gz Packages.bz2; do
             size=$(stat -c %s "$f")
