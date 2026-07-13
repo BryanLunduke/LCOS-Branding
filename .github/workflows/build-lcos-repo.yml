@@ -46,9 +46,10 @@ jobs:
           cp lcos-branding_1.0-1_all.deb repo/
           cd repo
 
-          # Create both uncompressed and compressed Packages files
+          # Create all index file formats (Packages, .gz, and .bz2)
           dpkg-scanpackages . /dev/null > Packages
           gzip -9 Packages
+          bzip2 -c Packages > Packages.bz2
 
           # Create Release file header
           {
@@ -62,27 +63,27 @@ jobs:
             echo "Date: $(date -R)"
           } > Release
 
-          # Add hash sections (reliable method)
+          # Add hash sections for Packages, Packages.gz and Packages.bz2
           echo "MD5Sum:" >> Release
-          md5sum Packages Packages.gz | while read -r hash file; do
+          md5sum Packages Packages.gz Packages.bz2 | while read -r hash file; do
             size=$(stat -c %s "$file")
             echo " $hash $size $file" >> Release
           done
 
           echo "SHA1:" >> Release
-          sha1sum Packages Packages.gz | while read -r hash file; do
+          sha1sum Packages Packages.gz Packages.bz2 | while read -r hash file; do
             size=$(stat -c %s "$file")
             echo " $hash $size $file" >> Release
           done
 
           echo "SHA256:" >> Release
-          sha256sum Packages Packages.gz | while read -r hash file; do
+          sha256sum Packages Packages.gz Packages.bz2 | while read -r hash file; do
             size=$(stat -c %s "$file")
             echo " $hash $size $file" >> Release
           done
 
           echo "SHA512:" >> Release
-          sha512sum Packages Packages.gz | while read -r hash file; do
+          sha512sum Packages Packages.gz Packages.bz2 | while read -r hash file; do
             size=$(stat -c %s "$file")
             echo " $hash $size $file" >> Release
           done
