@@ -17,7 +17,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Install build tools
-        run: sudo apt-get update && sudo apt-get install -y dpkg-dev
+        run: sudo apt-get update && sudo apt-get install -y dpkg-dev apt-utils
 
       - name: Create package structure
         run: |
@@ -45,13 +45,16 @@ jobs:
           cd repo
           dpkg-scanpackages . /dev/null | gzip -9 > Packages.gz
 
-          echo "Origin: LCOS" > Release
-          echo "Label: LCOS-Branding" >> Release
-          echo "Suite: stable" >> Release
-          echo "Codename: stable" >> Release
-          echo "Architectures: all" >> Release
-          echo "Components: main" >> Release
-          echo "Description: LCOS Branding Repository" >> Release
+          # Generate proper Release file with Date and hash entries
+          apt-ftparchive \
+            -o APT::FTPArchive::Release::Origin="LCOS" \
+            -o APT::FTPArchive::Release::Label="LCOS-Branding" \
+            -o APT::FTPArchive::Release::Suite="stable" \
+            -o APT::FTPArchive::Release::Codename="stable" \
+            -o APT::FTPArchive::Release::Architectures="all" \
+            -o APT::FTPArchive::Release::Components="main" \
+            -o APT::FTPArchive::Release::Description="LCOS Branding Repository" \
+            release . > Release
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
