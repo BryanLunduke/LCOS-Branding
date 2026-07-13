@@ -40,11 +40,13 @@ jobs:
 
       - name: Create APT repository files
         run: |
+          set -e
+
           mkdir -p repo
           cp lcos-branding_1.0-1_all.deb repo/
           cd repo
 
-          # Create both Packages and Packages.gz
+          # Create both uncompressed and compressed Packages files
           dpkg-scanpackages . /dev/null > Packages
           gzip -9 Packages
 
@@ -60,19 +62,29 @@ jobs:
             echo "Date: $(date -R)"
           } > Release
 
-          # Add all hash sections (MD5Sum, SHA1, SHA256, SHA512)
-          for hashtype in MD5Sum SHA1 SHA256 SHA512; do
-            echo "${hashtype}:" >> Release
-            for f in Packages Packages.gz; do
-              size=$(stat -c%s "$f")
-              case $hashtype in
-                MD5Sum)  hash=$(md5sum "$f" | cut -d' ' -f1) ;;
-                SHA1)    hash=$(sha1sum "$f" | cut -d' ' -f1) ;;
-                SHA256)  hash=$(sha256sum "$f" | cut -d' ' -f1) ;;
-                SHA512)  hash=$(sha512sum "$f" | cut -d' ' -f1) ;;
-              esac
-              echo " $hash $size $f" >> Release
-            done
+          # Add hash sections (reliable method)
+          echo "MD5Sum:" >> Release
+          md5sum Packages Packages.gz | while read -r hash file; do
+            size=$(stat -c %s "$file")
+            echo " $hash $size $file" >> Release
+          done
+
+          echo "SHA1:" >> Release
+          sha1sum Packages Packages.gz | while read -r hash file; do
+            size=$(stat -c %s "$file")
+            echo " $hash $size $file" >> Release
+          done
+
+          echo "SHA256:" >> Release
+          sha256sum Packages Packages.gz | while read -r hash file; do
+            size=$(stat -c %s "$file")
+            echo " $hash $size $file" >> Release
+          done
+
+          echo "SHA512:" >> Release
+          sha512sum Packages Packages.gz | while read -r hash file; do
+            size=$(stat -c %s "$file")
+            echo " $hash $size $file" >> Release
           done
 
       - name: Deploy to GitHub Pages
