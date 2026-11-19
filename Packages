@@ -3,10 +3,10 @@ Version: 1.0-2
 Architecture: all
 Maintainer: Bryan Lunduke <bryan@lundue.com>
 Filename: ./lcos-branding_1.0-2_all.deb
-Size: 109858
-MD5sum: 70c92bacf5d6d9927631ff18a5b4f558
-SHA1: a24e41eb9ce335e98fff516db917043e8e512519
-SHA256: 6204f69a9ff1dadd775c6871de82ac7b1b38a92c20d244f3d6f8ab869eb98e1a
+Size: 107252
+MD5sum: 47363c7cc99356d9a52bef8b7778077b
+SHA1: 81bdcc4e9419d38dd7ed9a10d6a4b21eb3b6b92e
+SHA256: ac0e2081f35ef1a22d26541355d2843fa961a5f26946d794c12ce72a14809c34
 Section: x11
 Priority: optional
 Description: LCOS Branding
